@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:photochemist/providers/homePageControl.dart';
 import 'package:photochemist/screens/home/photoChemistHome.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(PhotoChemistApp());
 
@@ -12,11 +14,18 @@ class PhotoChemistApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MaterialApp(
-      title: 'PhotoChemist',
-      debugShowCheckedModeBanner: false,
-      theme: PhotoChemistApp._buildAppTheme(),
-      home: PhotoChemistHome(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          builder: (context) => HomePageControl(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'PhotoChemist',
+        debugShowCheckedModeBanner: false,
+        theme: PhotoChemistApp._buildAppTheme(),
+        home: PhotoChemistHome(),
+      ),
     );
   }
 
