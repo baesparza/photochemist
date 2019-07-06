@@ -101,18 +101,19 @@ class EquationDisplayTextMode extends StatelessWidget {
   }
 
   List<TextSpan> _buildCompound(BuildContext context, {String rawCompoundText}) {
-    int numberOfMoleculesOfCompound;
+    int coefficient;
     List<String> elements = [];
 
     do {
       int indexOfLastCapitalLetter = rawCompoundText.lastIndexOf(RegExp(r'([A-Z])'));
       if (indexOfLastCapitalLetter <= 0) {
-        /// validate if not number to be added
+        /// validate if not number to be added by validating if the remaining text of the original string
+        /// can be parsed to a number
         int tempNumber = int.tryParse(rawCompoundText);
         if (tempNumber == null)
           elements.insert(0, rawCompoundText);
         else
-          numberOfMoleculesOfCompound = tempNumber;
+          coefficient = tempNumber;
         break;
       }
       elements.insert(0, rawCompoundText.substring(indexOfLastCapitalLetter));
@@ -120,9 +121,9 @@ class EquationDisplayTextMode extends StatelessWidget {
     } while (true);
 
     return [
-      if (numberOfMoleculesOfCompound != null)
+      if (coefficient != null)
         TextSpan(
-          text: numberOfMoleculesOfCompound.toString(),
+          text: coefficient.toString(),
           style: Theme.of(context).textTheme.title,
         ),
       for (var element in elements)
