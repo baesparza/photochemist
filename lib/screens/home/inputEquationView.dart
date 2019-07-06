@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 
 class InputEquationView extends StatelessWidget {
   /// TODO: temporal var
-  static const testInput = 'CH4+2O2->2H2O+CO2+2FeO';
+  static const testInput = '2H2O+2O2->2H2O+CO2+2FeO';
 
   const InputEquationView({
     Key key,
@@ -12,18 +12,26 @@ class InputEquationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ListView(
+      child: Container(
         padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
-        children: <Widget>[
-          Text(
-            'Edita tu Ecuación',
-            style: Theme.of(context).textTheme.display1.copyWith(color: Colors.black),
-          ),
-          Container(height: 30),
-          EquationInputField(testInput: testInput),
-          Container(height: 40),
-          EquationDisplayTextMode(rawEquationText: testInput),
-        ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Edita tu Ecuación',
+              style: Theme.of(context).textTheme.display1,
+            ),
+            Container(height: 30),
+            EquationInputField(testInput: testInput),
+            Container(height: 40),
+            EquationDisplayTextMode(rawEquationText: testInput),
+            Container(height: 30),
+            RaisedButton(
+              child: Text('Continuar'),
+              onPressed: () {},
+            )
+          ],
+        ),
       ),
     );
   }
@@ -77,11 +85,18 @@ class EquationDisplayTextMode extends StatelessWidget {
   }
 
   List<TextSpan> _buildEquation(BuildContext context) {
-    List<String> data = this.rawEquationText.split(RegExp(r'([->\,>\,=>])'));
+    List<String> data = this.rawEquationText.split(RegExp(r'([->\,>\,=>\→])'));
     if (data.length != 3) return [];
     return [
       ...this._buildPart(context, rawPartText: data[0]),
-      TextSpan(text: '>'),
+      TextSpan(
+        text: '→',
+        style: Theme.of(context).textTheme.body1.copyWith(
+              fontSize: 30,
+              letterSpacing: 5,
+              height: 0,
+            ),
+      ),
       ...this._buildPart(context, rawPartText: data[2]),
     ];
   }
@@ -94,7 +109,14 @@ class EquationDisplayTextMode extends StatelessWidget {
         TextSpan(
           children: <TextSpan>[
             ...this._buildCompound(context, rawCompoundText: compounds[i]),
-            if (i < compounds.length - 1) TextSpan(text: '+'),
+            if (i < compounds.length - 1)
+              TextSpan(
+                text: '+',
+                style: Theme.of(context).textTheme.body1.copyWith(
+                      fontSize: 20,
+                      letterSpacing: 5,
+                    ),
+              ),
           ],
         ),
     ];
@@ -123,9 +145,11 @@ class EquationDisplayTextMode extends StatelessWidget {
     return [
       if (coefficient != null)
         TextSpan(
-          text: coefficient.toString(),
-          style: Theme.of(context).textTheme.title,
-        ),
+            text: coefficient.toString(),
+            style: Theme.of(context).textTheme.headline.copyWith(
+                  letterSpacing: 3,
+                  fontWeight: FontWeight.w500,
+                )),
       for (var element in elements)
         ...this._buildElementComponent(context, rawElementText: element),
     ];
@@ -148,7 +172,8 @@ class EquationDisplayTextMode extends StatelessWidget {
     }
 
     return [
-      TextSpan(text: _element),
+      TextSpan(
+          text: _element, style: Theme.of(context).textTheme.title.copyWith(letterSpacing: 0.6)),
       if (_subScript != null)
         TextSpan(
           text: _subScript,
