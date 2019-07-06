@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class InputEquationView extends StatelessWidget {
-  /// TODO: temporal var
-  static const testInput = '2H2O+2O2->2H2O+CO2+2FeO';
-
+class InputEquationView extends StatefulWidget {
   const InputEquationView({
     Key key,
   }) : super(key: key);
 
+  @override
+  _InputEquationViewState createState() => _InputEquationViewState();
+}
+
+class _InputEquationViewState extends State<InputEquationView> {
+  String input = '';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,9 +25,27 @@ class InputEquationView extends StatelessWidget {
               style: Theme.of(context).textTheme.display1,
             ),
             Container(height: 30),
-            EquationInputField(testInput: testInput),
+            TextField(
+              onChanged: (newVal) {
+                setState(() {
+                  this.input = newVal;
+                });
+              },
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(10.0),
+                  ),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: "2FeO+O2>Fe+H2O",
+                fillColor: Colors.white70,
+              ),
+            ),
             Container(height: 40),
-            EquationDisplayTextMode(rawEquationText: testInput),
+            EquationDisplayTextMode(rawEquationText: this.input),
             Container(height: 30),
             RaisedButton(
               child: Text('Continuar'),
@@ -37,33 +58,33 @@ class InputEquationView extends StatelessWidget {
   }
 }
 
-class EquationInputField extends StatelessWidget {
-  const EquationInputField({
-    Key key,
-    @required this.testInput,
-  }) : super(key: key);
+// class EquationInputField extends StatelessWidget {
+//   const EquationInputField({
+//     Key key,
+//     @required this.testInput,
+//   }) : super(key: key);
 
-  final String testInput;
+//   final String testInput;
 
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      initialValue: InputEquationView.testInput,
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(
-            const Radius.circular(10.0),
-          ),
-        ),
-        filled: true,
-        hintStyle: TextStyle(color: Colors.grey[800]),
-        hintText: "2FeO+O2>Fe+H2O",
-        fillColor: Colors.white70,
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return TextField(
+//       onChanged: (newVal) => {},
+//       keyboardType: TextInputType.text,
+//       decoration: InputDecoration(
+//         border: OutlineInputBorder(
+//           borderRadius: const BorderRadius.all(
+//             const Radius.circular(10.0),
+//           ),
+//         ),
+//         filled: true,
+//         hintStyle: TextStyle(color: Colors.grey[800]),
+//         hintText: "2FeO+O2>Fe+H2O",
+//         fillColor: Colors.white70,
+//       ),
+//     );
+//   }
+// }
 
 class EquationDisplayTextMode extends StatelessWidget {
   final String rawEquationText;
@@ -85,7 +106,7 @@ class EquationDisplayTextMode extends StatelessWidget {
   }
 
   List<TextSpan> _buildEquation(BuildContext context) {
-    List<String> data = this.rawEquationText.split(RegExp(r'([->\,>\,=>\→])'));
+    List<String> data = this.rawEquationText.split(RegExp(r'([->\,>\,=>\,→\,=])'));
     if (data.length != 3) return [];
     return [
       ...this._buildPart(context, rawPartText: data[0]),
