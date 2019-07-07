@@ -19,6 +19,7 @@ class HomePageControl with ChangeNotifier {
       this._scaffoldKey.currentState?.openDrawer();
       return;
     }
+
     this._currentIndex = index;
     notifyListeners();
   }
