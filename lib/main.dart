@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:photochemist/providers/homePageControl.dart';
+import 'package:photochemist/providers/notebookControl.dart';
 import 'package:photochemist/screens/home/photoChemistHome.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,10 @@ class PhotoChemistApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           builder: (context) => HomePageControl(),
-        )
+        ),
+        ChangeNotifierProvider(
+          builder: (comtext) => NotebookControl(),
+        ),
       ],
       child: MaterialApp(
         title: 'PhotoChemist',
@@ -33,6 +37,7 @@ class PhotoChemistApp extends StatelessWidget {
     final ThemeData base = ThemeData.light();
     return base.copyWith(
       primaryColor: Color(0xff330867),
+      splashColor: Colors.red,
       // accentColor: Color(0xff30cfd0),
       backgroundColor: Colors.grey.shade100,
 

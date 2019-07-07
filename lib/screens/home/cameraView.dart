@@ -26,7 +26,7 @@ class _CameraViewState extends State<CameraView> {
   void initState() {
     super.initState();
     this._loadCameras().then((_) {
-      controller = CameraController(cameras[0], ResolutionPreset.medium);
+      controller = CameraController(cameras[1], ResolutionPreset.medium);
 
       controller.initialize().then((_) {
         if (!mounted) {

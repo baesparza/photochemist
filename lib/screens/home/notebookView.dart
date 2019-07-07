@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:photochemist/providers/notebookControl.dart';
 import 'package:photochemist/widgets/displayChemistryEquation.dart';
 import 'package:photochemist/widgets/whiteContainer.dart';
+import 'package:provider/provider.dart';
 
 class NotebookView extends StatelessWidget {
   const NotebookView({
@@ -9,44 +11,28 @@ class NotebookView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BoxDecoration containerDecorations = BoxDecoration(
-      color: Colors.white,
-      borderRadius: const BorderRadius.all(Radius.circular(5)),
-    );
+    NotebookControl notebookControl = Provider.of<NotebookControl>(context);
 
     return SafeArea(
       child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 9),
         children: <Widget>[
           WhiteContainer(
-            title: Text('Favoritos'),
             children: <Widget>[
               ListTile(
-                onLongPress: () {},
-                title: DisplayChemistryEquation(rawEquationText: 'C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
+                title: Text(
+                  'Favoritos',
+                  style: Theme.of(context).textTheme.headline,
+                ),
               ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
+              for (Equation el in notebookControl.favorites)
+                ListTile(
+                  title: DisplayChemistryEquation(rawEquationText: el.rawText),
+                  enabled: true,
+                  onTap: () {},
+                ),
             ],
           ),
-          SizedBox(height: 40),
           WhiteContainer(
-            title: Text('Historial'),
             children: <Widget>[
               ListTile(
                 title: Text(
@@ -58,56 +44,12 @@ class NotebookView extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
-              ListTile(
-                title: DisplayChemistryEquation(rawEquationText: 'H2O+C4=>2H2O'),
-                enabled: true,
-                onTap: () {},
-              ),
+              for (Equation el in notebookControl.history)
+                ListTile(
+                  title: DisplayChemistryEquation(rawEquationText: el.rawText),
+                  enabled: true,
+                  onTap: () {},
+                ),
             ],
           ),
         ],

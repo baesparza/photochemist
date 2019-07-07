@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:photochemist/widgets/displayChemistryEquation.dart';
 import 'package:photochemist/widgets/whiteContainer.dart';
 
@@ -18,33 +17,42 @@ class _InputEquationViewState extends State<InputEquationView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: WhiteContainer(
-        title: Text('Edita tu Ecuación'),
         children: <Widget>[
-          TextField(
-            onChanged: (newVal) {
-              setState(() {
-                this.input = newVal;
-              });
-            },
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  const Radius.circular(10.0),
-                ),
-              ),
-              filled: true,
-              hintStyle: TextStyle(color: Colors.grey[800]),
-              hintText: "2FeO+O2>Fe+H2O",
-              fillColor: Colors.white70,
+          ListTile(
+            title: Text(
+              'Edita tu Ecuación',
+              style: Theme.of(context).textTheme.headline,
             ),
           ),
-          Container(height: 40),
-          DisplayChemistryEquation(rawEquationText: this.input),
-          Container(height: 30),
-          RaisedButton(
-            child: Text('Continuar'),
-            onPressed: () {},
+          ListTile(
+            title: TextField(
+              onChanged: (newVal) {
+                setState(() {
+                  this.input = newVal;
+                });
+              },
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(10.0),
+                  ),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: "2FeO+O2>Fe+H2O",
+                fillColor: Colors.white70,
+              ),
+            ),
+          ),
+          ListTile(
+            title: DisplayChemistryEquation(rawEquationText: this.input),
+          ),
+          ListTile(
+            title: RaisedButton(
+              child: Text('Continuar'),
+              onPressed: () {},
+            ),
           )
         ],
       ),
