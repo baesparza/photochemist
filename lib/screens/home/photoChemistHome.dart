@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:photochemist/providers/homePageControl.dart';
+import 'package:photochemist/screens/home/notebookView.dart';
 import 'package:provider/provider.dart';
 
 import 'package:photochemist/screens/home/cameraView.dart';
-import 'package:photochemist/screens/home/equationHistoryView.dart';
 import 'package:photochemist/screens/home/inputEquationView.dart';
 import 'package:photochemist/screens/home/solutionEquationView.dart';
 
@@ -19,7 +19,7 @@ class PhotoChemistHome extends StatelessWidget {
     InputEquationView(),
     CameraView(),
     SolutionEquationView(),
-    EquationHistory(),
+    NotebookView(),
   ];
 
   /// activate different pages. and keep track when to open menu.
@@ -32,6 +32,7 @@ class PhotoChemistHome extends StatelessWidget {
       key: pageControl.scaffoldKey,
       body: PhotoChemistHome._views[pageControl.currentIndex],
       drawer: Drawer(),
+      backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

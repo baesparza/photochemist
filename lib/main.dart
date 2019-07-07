@@ -33,9 +33,8 @@ class PhotoChemistApp extends StatelessWidget {
     final ThemeData base = ThemeData.light();
     return base.copyWith(
       primaryColor: Color(0xff330867),
-      scaffoldBackgroundColor: Colors.white,
       // accentColor: Color(0xff30cfd0),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade100,
 
       // text theme
       textTheme: _buildTextTheme(base: base.textTheme),
@@ -43,7 +42,7 @@ class PhotoChemistApp extends StatelessWidget {
       // accentTextTheme: _buildTextTheme(base: base.accentTextTheme, color: Colors.white),
 
       // icon theme
-      iconTheme: base.iconTheme.copyWith(),
+      iconTheme: base.iconTheme.copyWith(color: Colors.black),
       primaryIconTheme: base.iconTheme.copyWith(color: Colors.white),
       // accentIconTheme: base.iconTheme.copyWith(color: Colors.white),
     );
