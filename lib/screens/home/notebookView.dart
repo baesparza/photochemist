@@ -14,6 +14,25 @@ class NotebookView extends StatelessWidget {
   Widget build(BuildContext context) {
     NotebookControl noteBook = Provider.of<NotebookControl>(context);
 
+    List<Widget> notificationList;
+    if (noteBook.history == null) {
+      notificationList = [
+        ListTile(
+          title: Text('Loading...'),
+        )
+      ];
+    } else {
+      notificationList = noteBook.history
+          .map(
+            (el) => ListTile(
+                  title: DisplayChemistryEquation(rawEquationText: el.value),
+                  enabled: true,
+                  onTap: () {},
+                ),
+          )
+          .toList();
+    }
+
     return SafeArea(
       child: ListView(
         children: <Widget>[
@@ -25,22 +44,22 @@ class NotebookView extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline,
                 ),
               ),
-              FutureBuilder(
-                initialData: [],
-                future: noteBook.getFavorites(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  return Column(
-                    children: <Widget>[
-                      for (Equation el in snapshot.data)
-                        ListTile(
-                          title: DisplayChemistryEquation(rawEquationText: el.value),
-                          enabled: true,
-                          onTap: () {},
-                        ),
-                    ],
-                  );
-                },
-              ),
+              // FutureBuilder(
+              //   initialData: [],
+              //   future: noteBook.getFavorites(),
+              //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+              //     return Column(
+              //       children: <Widget>[
+              //         for (Equation el in snapshot.data)
+              //           ListTile(
+              //             title: DisplayChemistryEquation(rawEquationText: el.value),
+              //             enabled: true,
+              //             onTap: () {},
+              //           ),
+              //       ],
+              //     );
+              //   },
+              // ),
             ],
           ),
           WhiteContainer(
@@ -55,22 +74,8 @@ class NotebookView extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              FutureBuilder(
-                initialData: [],
-                future: noteBook.getHistory(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  return Column(
-                    children: <Widget>[
-                      for (Equation el in snapshot.data)
-                        ListTile(
-                          title: DisplayChemistryEquation(rawEquationText: el.value),
-                          enabled: true,
-                          onTap: () {},
-                        ),
-                    ],
-                  );
-                },
-              ),
+              ...notificationList
+            ],
           ),
         ],
       ),

@@ -25,7 +25,7 @@ class _InputEquationViewState extends State<InputEquationView> {
     Function continueBtnAction = () async {
       /// create new equation
       Equation e = Equation(value: this.input, isFavorite: true);
-      e = await noteBook.addEquation(e);
+      // e = await noteBook.addEquation(e);
       homePageControl.currentIndex = 3;
     };
 
