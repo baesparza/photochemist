@@ -1,5 +1,5 @@
 class Equation {
-  final String id;
+  final int id;
   final String value;
   final bool isFavorite;
   final String solution;
@@ -29,6 +29,15 @@ class Equation {
       value: map['value'],
       isFavorite: map['isFavorite'] == 1,
       solution: map['solution'],
+    );
+  }
+
+  factory Equation.fromEquation(int id, Equation equation) {
+    return Equation(
+      id: id,
+      value: equation.value,
+      isFavorite: equation.isFavorite,
+      solution: equation.solution,
     );
   }
 }

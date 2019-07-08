@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:photochemist/models/equation.dart';
+import 'package:photochemist/providers/homePageControl.dart';
+import 'package:photochemist/providers/notebookControl.dart';
 import 'package:photochemist/widgets/displayChemistryEquation.dart';
 import 'package:photochemist/widgets/whiteContainer.dart';
+import 'package:provider/provider.dart';
 
 class InputEquationView extends StatefulWidget {
   const InputEquationView({
@@ -15,6 +19,16 @@ class _InputEquationViewState extends State<InputEquationView> {
   String input = '';
   @override
   Widget build(BuildContext context) {
+    NotebookControl noteBook = Provider.of<NotebookControl>(context);
+    HomePageControl homePageControl = Provider.of<HomePageControl>(context);
+
+    Function continueBtnAction = () async {
+      /// create new equation
+      Equation e = Equation(value: this.input, isFavorite: true);
+      e = await noteBook.addEquation(e);
+      homePageControl.currentIndex = 3;
+    };
+
     return SafeArea(
       child: WhiteContainer(
         children: <Widget>[
@@ -51,7 +65,7 @@ class _InputEquationViewState extends State<InputEquationView> {
           ListTile(
             title: RaisedButton(
               child: Text('Continuar'),
-              onPressed: () {},
+              onPressed: continueBtnAction,
             ),
           )
         ],

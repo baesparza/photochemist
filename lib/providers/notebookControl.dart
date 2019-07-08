@@ -9,10 +9,14 @@ class NotebookControl with ChangeNotifier {
   NotebookControl() {
     this._loadBD();
   }
-  Future<void> open(String path) async {
+
+  Future<void> _loadBD() async {
+    var databasesPath = await getDatabasesPath();
+    String path = p.join(databasesPath, 'photochemist.db');
+
     this._database = await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: (Database db, int version) async {
         await db.execute('''
         create table Equations (
@@ -23,35 +27,40 @@ class NotebookControl with ChangeNotifier {
           ''');
       },
     );
-  }
-
-  Future<void> _loadBD() async {
-    var databasesPath = await getDatabasesPath();
-    String path = p.join(databasesPath, 'photochemist.db');
-
-    this._database = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (Database db, int version) async {
-        // When creating the db, create the table
-        await db.execute(
-            'CREATE TABLE Equations (id INTEGER PRIMARY KEY, value TEXT, solution TEXT, isFavorite BOOLEAN)');
-      },
-    );
 
     notifyListeners();
   }
 
-  get history {
-    if (this._database == null) return null;
+  Future<List<Equation>> getFavorites() async {
+    if (this._database == null) return [];
+    List<Map> maps = await this._database.query(
+          'Equations',
+          where: 'isFavorite = 1',
+        );
+    print(maps);
+
+    return maps.map((val) => Equation.fromMap(val)).toList();
   }
 
-  get favorites {
-    // return this._history.where((equation) => equation.isFavorite);
+  Future<List<Equation>> getHistory() async {
+    if (this._database == null) return [];
+    List<Map> maps = await this._database.query(
+          'Equations',
+        );
+    print(maps);
+
+    return maps.map((val) => Equation.fromMap(val)).toList();
   }
 
-  Future<void> addEquation(Equation equation) async {
-    await this._database.insert('Equations', equation.toMap());
+  get favorites async {
+    if (this._database == null) return [];
+    List<Map> maps = await this._database.query('Equations');
+    return maps.map((val) => Equation.fromMap(val)).toList();
+  }
+
+  Future<Equation> addEquation(Equation equation) async {
+    int id = await this._database.insert('Equations', equation.toMap());
     notifyListeners();
+    return Equation.fromEquation(id, equation);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photochemist/models/equation.dart';
 import 'package:photochemist/providers/notebookControl.dart';
 import 'package:photochemist/widgets/displayChemistryEquation.dart';
 import 'package:photochemist/widgets/whiteContainer.dart';
@@ -11,7 +12,7 @@ class NotebookView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NotebookControl notebookControl = Provider.of<NotebookControl>(context);
+    NotebookControl noteBook = Provider.of<NotebookControl>(context);
 
     return SafeArea(
       child: ListView(
@@ -24,12 +25,22 @@ class NotebookView extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline,
                 ),
               ),
-              for (Equation el in notebookControl.favorites)
-                ListTile(
-                  title: DisplayChemistryEquation(rawEquationText: el.rawText),
-                  enabled: true,
-                  onTap: () {},
-                ),
+              FutureBuilder(
+                initialData: [],
+                future: noteBook.getFavorites(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return Column(
+                    children: <Widget>[
+                      for (Equation el in snapshot.data)
+                        ListTile(
+                          title: DisplayChemistryEquation(rawEquationText: el.value),
+                          enabled: true,
+                          onTap: () {},
+                        ),
+                    ],
+                  );
+                },
+              ),
             ],
           ),
           WhiteContainer(
@@ -44,13 +55,22 @@ class NotebookView extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              for (Equation el in notebookControl.history)
-                ListTile(
-                  title: DisplayChemistryEquation(rawEquationText: el.rawText),
-                  enabled: true,
-                  onTap: () {},
-                ),
-            ],
+              FutureBuilder(
+                initialData: [],
+                future: noteBook.getHistory(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return Column(
+                    children: <Widget>[
+                      for (Equation el in snapshot.data)
+                        ListTile(
+                          title: DisplayChemistryEquation(rawEquationText: el.value),
+                          enabled: true,
+                          onTap: () {},
+                        ),
+                    ],
+                  );
+                },
+              ),
           ),
         ],
       ),
