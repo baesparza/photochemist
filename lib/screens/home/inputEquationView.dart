@@ -16,7 +16,7 @@ class InputEquationView extends StatefulWidget {
 }
 
 class _InputEquationViewState extends State<InputEquationView> {
-  String input = '';
+  String input = '2FeO+O2>Fe+H2O';
   @override
   Widget build(BuildContext context) {
     NotebookControl noteBook = Provider.of<NotebookControl>(context);
@@ -24,8 +24,8 @@ class _InputEquationViewState extends State<InputEquationView> {
 
     Function continueBtnAction = () async {
       /// create new equation
-      Equation e = Equation(value: this.input, isFavorite: true);
-      // e = await noteBook.addEquation(e);
+      Equation e = Equation(value: this.input);
+      e = await noteBook.addEquation(e);
       homePageControl.currentIndex = 3;
     };
 

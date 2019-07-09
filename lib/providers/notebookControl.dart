@@ -12,6 +12,11 @@ class NotebookControl with ChangeNotifier {
   final PhotoChemistDB _db;
   List<Equation> _history;
   List<Equation> _favorites;
+  Equation _selectedEquation;
+
+  get selectedEquation {
+    return this._selectedEquation;
+  }
 
   List<Equation> get history {
     if (this._history == null) {
@@ -21,6 +26,25 @@ class NotebookControl with ChangeNotifier {
       });
     }
     return this._history;
+  }
+
+  List<Equation> get favorites {
+    if (this._favorites == null) {
+      this._db.loadEquationFavorites().then((list) {
+        this._favorites = list;
+        notifyListeners();
+      });
+    }
+    return this._favorites;
+  }
+
+  void cleanHistory() {
+    this._db.cleanHistory().then(
+      () {
+        this._history = null;
+        notifyListeners();
+      },
+    );
   }
 
   // Future<List<Equation>> getFavorites() async {
@@ -50,9 +74,14 @@ class NotebookControl with ChangeNotifier {
   //   return maps.map((val) => Equation.fromMap(val)).toList();
   // }
 
-  // Future<Equation> addEquation(Equation equation) async {
-  //   int id = await this._database.insert('Equations', equation.toMap());
-  //   notifyListeners();
-  //   return Equation.fromEquation(id, equation);
-  // }
+  Equation addEquation(Equation equation) {
+    this._db.addEquation(equation).then(
+      (e) {
+        this._selectedEquation = e;
+        this._history = null;
+        this._favorites = null;
+        notifyListeners();
+      },
+    );
+  }
 }

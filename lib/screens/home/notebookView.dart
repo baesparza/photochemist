@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photochemist/models/equation.dart';
+import 'package:photochemist/providers/homePageControl.dart';
 import 'package:photochemist/providers/notebookControl.dart';
 import 'package:photochemist/widgets/displayChemistryEquation.dart';
 import 'package:photochemist/widgets/whiteContainer.dart';
@@ -24,14 +25,33 @@ class NotebookView extends StatelessWidget {
     } else {
       notificationList = noteBook.history
           .map(
-            (el) => ListTile(
-                  title: DisplayChemistryEquation(rawEquationText: el.value),
-                  enabled: true,
-                  onTap: () {},
+            (el) => WhiteListTile(
+                  equation: el,
                 ),
           )
           .toList();
     }
+
+    List<Widget> favoritesList;
+    if (noteBook.favorites == null) {
+      favoritesList = [
+        ListTile(
+          title: Text('Loading...'),
+        )
+      ];
+    } else {
+      favoritesList = noteBook.favorites
+          .map(
+            (el) => WhiteListTile(
+                  equation: el,
+                ),
+          )
+          .toList();
+    }
+
+    Function cleanHistoryFunction = () {
+      noteBook.cleanHistory();
+    };
 
     return SafeArea(
       child: ListView(
@@ -44,22 +64,7 @@ class NotebookView extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline,
                 ),
               ),
-              // FutureBuilder(
-              //   initialData: [],
-              //   future: noteBook.getFavorites(),
-              //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-              //     return Column(
-              //       children: <Widget>[
-              //         for (Equation el in snapshot.data)
-              //           ListTile(
-              //             title: DisplayChemistryEquation(rawEquationText: el.value),
-              //             enabled: true,
-              //             onTap: () {},
-              //           ),
-              //       ],
-              //     );
-              //   },
-              // ),
+              ...favoritesList
             ],
           ),
           WhiteContainer(
@@ -71,7 +76,7 @@ class NotebookView extends StatelessWidget {
                 ),
                 trailing: IconButton(
                   icon: Icon(Icons.delete_forever),
-                  onPressed: () {},
+                  onPressed: cleanHistoryFunction,
                 ),
               ),
               ...notificationList
@@ -79,6 +84,37 @@ class NotebookView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class WhiteListTile extends StatelessWidget {
+  final Equation equation;
+
+  const WhiteListTile({
+    Key key,
+    this.equation,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    HomePageControl homePageControl = Provider.of<HomePageControl>(context);
+
+    Widget fab;
+    if (this.equation.isFavorite) {
+      fab = Icon(
+        Icons.star,
+        color: Colors.yellow,
+      );
+    }
+
+    return ListTile(
+      leading: fab,
+      title: DisplayChemistryEquation(rawEquationText: equation.value),
+      trailing: Icon(Icons.keyboard_arrow_right),
+      onTap: () {
+        homePageControl.currentIndex = 3;
+      },
     );
   }
 }
