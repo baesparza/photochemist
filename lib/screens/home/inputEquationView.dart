@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:photochemist/models/equation.dart';
 import 'package:photochemist/providers/homePageControl.dart';
 import 'package:photochemist/providers/notebookControl.dart';
+import 'package:photochemist/providers/selectedEquation.dart';
 import 'package:photochemist/widgets/displayChemistryEquation.dart';
 import 'package:photochemist/widgets/whiteContainer.dart';
 import 'package:provider/provider.dart';
@@ -19,13 +20,13 @@ class _InputEquationViewState extends State<InputEquationView> {
   String input = '2FeO+O2>Fe+H2O';
   @override
   Widget build(BuildContext context) {
-    NotebookControl noteBook = Provider.of<NotebookControl>(context);
+    SelectedEquation selectedEquation = Provider.of<SelectedEquation>(context);
     HomePageControl homePageControl = Provider.of<HomePageControl>(context);
 
-    Function continueBtnAction = () async {
+    Function continueBtnAction = ()  {
       /// create new equation
       Equation e = Equation(value: this.input);
-      e = await noteBook.addEquation(e);
+      selectedEquation.currentEquation = e;
       homePageControl.currentIndex = 3;
     };
 

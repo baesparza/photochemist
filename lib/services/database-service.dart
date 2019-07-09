@@ -30,7 +30,24 @@ class PhotoChemistDB {
           id integer primary key autoincrement,
           value text not null,
           solution text,
-          isFavorite integer not null)
+          isFavorite integer not null,
+          createdAt date not null)
+          ''');
+      },
+    );
+    // Delete the database
+    await deleteDatabase(path);
+    this._database = await openDatabase(
+      path,
+      version: 1,
+      onCreate: (Database db, int version) async {
+        await db.execute('''
+        create table Equations (
+          id integer primary key autoincrement,
+          value text not null,
+          solution text,
+          isFavorite integer not null,
+          createdAt date not null)
           ''');
       },
     );
@@ -41,7 +58,8 @@ class PhotoChemistDB {
 
     List<Map> res = await this._database.query(
           'Equations',
-          where: 'isFavorite = 1',
+          where: 'isFavorite = 1 and createdAt is not null',
+          orderBy: 'createdAt',
         );
     return res.map((val) => Equation.fromMap(val)).toList();
   }
@@ -49,7 +67,11 @@ class PhotoChemistDB {
   loadEquationHistory() async {
     if (this._database == null) await this._loadBD();
 
-    List<Map> res = await this._database.query('Equations');
+    List<Map> res = await this._database.query(
+          'Equations',
+          orderBy: 'createdAt',
+          where: 'createdAt is not null',
+        );
     return res.map((val) => Equation.fromMap(val)).toList();
   }
 

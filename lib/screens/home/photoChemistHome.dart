@@ -15,11 +15,10 @@ class PhotoChemistHome extends StatelessWidget {
   /// different views used for this page.
   /// First class is a dummy container, no real use, just take 1 space
   static List<Widget> _views = [
-    Container(),
     InputEquationView(),
     CameraView(),
     SolutionEquationView(),
-    NotebookView(),
+    // NotebookView(),
   ];
 
   /// activate different pages. and keep track when to open menu.
@@ -30,7 +29,10 @@ class PhotoChemistHome extends StatelessWidget {
 
     return Scaffold(
       key: pageControl.scaffoldKey,
-      body: PhotoChemistHome._views[pageControl.currentIndex],
+      body: PageView(
+        controller: pageControl.pageController,
+        children: PhotoChemistHome._views,
+      ),
       drawer: Drawer(),
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: BottomNavigationBar(
@@ -54,11 +56,11 @@ class PhotoChemistHome extends StatelessWidget {
             title: Text('Solución'),
             backgroundColor: Color(0xff1b3643),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            title: Text('Libreta'),
-            backgroundColor: Color(0xff1f4949),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.book),
+          //   title: Text('Libreta'),
+          //   backgroundColor: Color(0xff1f4949),
+          // ),
         ],
         showUnselectedLabels: false,
         onTap: (int index) => pageControl.currentIndex = index,

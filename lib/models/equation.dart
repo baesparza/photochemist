@@ -3,19 +3,22 @@ class Equation {
   final String value;
   final bool isFavorite;
   final String solution;
+  final DateTime createdAt;
 
-  const Equation({
+  Equation({
     this.id,
     this.value,
     this.isFavorite = false,
     this.solution,
-  });
+    DateTime createdAt,
+  }) : this.createdAt = createdAt ?? DateTime.now();
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'value': this.value,
       'isFavorite': this.isFavorite == true ? 1 : 0,
       'solution': this.solution,
+      'createdAt': this.createdAt,
     };
     if (this.id != null) {
       map['id'] = id;
@@ -29,6 +32,7 @@ class Equation {
       value: map['value'],
       isFavorite: map['isFavorite'] == 1,
       solution: map['solution'],
+      createdAt: map['createdAt'],
     );
   }
 
@@ -38,6 +42,7 @@ class Equation {
       value: equation.value,
       isFavorite: equation.isFavorite,
       solution: equation.solution,
+      createdAt: equation.createdAt,
     );
   }
 }
