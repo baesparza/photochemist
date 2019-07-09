@@ -1,6 +1,7 @@
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 // import 'package:camera/camera.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CameraView extends StatefulWidget {
   CameraView({
@@ -50,25 +51,26 @@ class _CameraViewState extends State<CameraView> {
       child: IconButton(
         icon: Icon(Icons.photo_camera),
         onPressed: () async {
-          // final imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
-          // final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(imageFile);
-          // final TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
-          // final VisionText visionText = await textRecognizer.processImage(visionImage);
-          // String text = visionText.text;
-          // for (TextBlock block in visionText.blocks) {
-          //   final Rect boundingBox = block.boundingBox;
-          //   final List<Offset> cornerPoints = block.cornerPoints;
-          //   final String text = block.text;
-          //   final List<RecognizedLanguage> languages = block.recognizedLanguages;
+          final imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+          final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(imageFile);
+          final TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
+          final VisionText visionText = await textRecognizer.processImage(visionImage);
+          String text = visionText.text;
+          for (TextBlock block in visionText.blocks) {
+            final Rect boundingBox = block.boundingBox;
+            final List<Offset> cornerPoints = block.cornerPoints;
+            final String text = block.text;
+            final List<RecognizedLanguage> languages = block.recognizedLanguages;
 
-          //   for (TextLine line in block.lines) {
-          //     // Same getters as TextBlock
-          //     for (TextElement element in line.elements) {
-          //       // Same getters as TextBlock
-          //     }
-          //   }
-          // }
-          // textRecognizer.close();
+            for (TextLine line in block.lines) {
+              // Same getters as TextBlock
+              for (TextElement element in line.elements) {
+                // Same getters as TextBlock
+                print(element.text);
+              }
+            }
+          }
+          textRecognizer.close();
         },
       ),
     );
