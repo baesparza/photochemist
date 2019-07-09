@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class HomePageControl with ChangeNotifier {
-  int _currentIndex = 1;
+  int _currentIndex = 2;
 
   /// track state of current scaffold. Main purpose related to use of drawer
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
-  final PageController _pageController = new PageController();
+  final PageController _pageController = new PageController(initialPage: 1);
 
   HomePageControl() {
     this.pageController.addListener(() {

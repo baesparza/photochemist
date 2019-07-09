@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "613386060224",
+    "firebase_url": "https://photochemists-273.firebaseio.com",
+    "project_id": "photochemists-273",
+    "storage_bucket": "photochemists-273.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613386060224:android:0a585b660d8bcd1e",
+        "android_client_info": {
+          "package_name": "com.app.ex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613386060224-rg2joks5bfdqp5a61cqopunh6mrhosek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGXmaI9QiVWcC3RDnlIVk4f1EgxoZmC8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613386060224-rg2joks5bfdqp5a61cqopunh6mrhosek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613386060224:android:2e38698e42595161",
+        "android_client_info": {
+          "package_name": "ec.edu.utpl.grupoia.photochemist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613386060224-rg2joks5bfdqp5a61cqopunh6mrhosek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGXmaI9QiVWcC3RDnlIVk4f1EgxoZmC8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613386060224-rg2joks5bfdqp5a61cqopunh6mrhosek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

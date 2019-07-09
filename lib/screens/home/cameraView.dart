@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
@@ -61,7 +62,12 @@ class _CameraViewState extends State<CameraView> {
           child: Center(
             child: IconButton(
               icon: Icon(Icons.photo_camera),
-              onPressed: () {},
+              onPressed: () {
+                Firestore.instance
+                    .collection('Test')
+                    .document()
+                    .setData({'title': 'title', 'author': 'author'});
+              },
             ),
           ),
         )
