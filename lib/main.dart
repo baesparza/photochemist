@@ -22,7 +22,7 @@ class PhotoChemistApp extends StatelessWidget {
           builder: (context) => HomePageControl(),
         ),
         ChangeNotifierProvider(
-          builder: (comtext) => SelectedEquation(),
+          builder: (context) => SelectedEquation(),
         ),
       ],
       child: MaterialApp(
